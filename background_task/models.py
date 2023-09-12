@@ -6,13 +6,13 @@ import logging
 import os
 import traceback
 
-from compat import StringIO
-from compat.models import GenericForeignKey
+from io import StringIO
+
+from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.db.models import Q
 from django.utils import timezone
-from six import python_2_unicode_compatible
 
 from background_task.exceptions import InvalidTaskError
 from background_task.settings import app_settings
@@ -128,7 +128,6 @@ class TaskManager(models.Manager):
         return self.get_task(task_name, args, kwargs).delete()
 
 
-@python_2_unicode_compatible
 class Task(models.Model):
     # the "name" of the task/function to be run
     task_name = models.CharField(max_length=190, db_index=True)
@@ -373,7 +372,6 @@ class CompletedTaskQuerySet(models.QuerySet):
         return qs
 
 
-@python_2_unicode_compatible
 class CompletedTask(models.Model):
     # the "name" of the task/function to be run
     task_name = models.CharField(max_length=190, db_index=True)
